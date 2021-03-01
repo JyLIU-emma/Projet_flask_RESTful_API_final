@@ -1,5 +1,5 @@
 from flask import Flask
-# from backend.api import app as backend
+# from flask_migrate import upgrade
 from backend.api import app
 
 app

@@ -1,5 +1,6 @@
 from flask import Flask, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_restful import Resource, Api
 from pathlib import Path
 from .resources import *
@@ -8,7 +9,9 @@ import os
 
 
 app = Flask(__name__)
-app.secret_key = '23rfqssjmnkcj'   # random string， top secret
+
+# random string, top secret, will use another one saved as environment variables in deployment
+app.secret_key = 'ced7bc208f304df1b501346dddbacf6b'   
 
 # configuration de l'app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + str(DB_DATA)
@@ -23,12 +26,13 @@ if app.config['SSL_REDIRECT']:
     from flask_sslify import SSLify
     sslify = SSLify(app)
 
-    from Werkzeug.contrib.fixers import ProxyFix
+    from werkzeug.contrib.fixers import ProxyFix
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # initier les module pour login_manager et database
 login_manager.init_app(app)
 db.init_app(app)
+migrate = Migrate(app, db)
 api = Api(app)
 
 api.add_resource(Home, '/', '/home', endpoint='home_ep')    #pade d'accueil GET
