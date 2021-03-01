@@ -163,7 +163,7 @@ $ flask run
 # tester avec gunicorn sans fichier de configuration
 $ gunicorn main:app
 
-#spécifhier un autre port si on veut voir l'effet de gunicorn
+# spécifier un autre port si on veut voir l'effet de gunicorn
 $ gunicorn main:app -b 0.0.0.0:2021
 ```
 
