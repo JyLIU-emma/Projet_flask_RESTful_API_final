@@ -26,7 +26,8 @@ if app.config['SSL_REDIRECT']:
     from flask_sslify import SSLify
     sslify = SSLify(app)
 
-    from werkzeug.contrib.fixers import ProxyFix
+    # from werkzeug.contrib.fixers import ProxyFix
+    from werkzeug.middleware.proxy_fix import ProxyFix
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # initier les module pour login_manager et database
