@@ -1,14 +1,17 @@
 # -*- coding:utf-8 -*-
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, session
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
+from flask_login import UserMixin, LoginManager, logout_user, login_required
 # from .models.api_connect import home_page, user_create_page
 from .resources import auth, home, location
 
 __all__ =['app']
 
 bootstrap = Bootstrap()
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
 
 class Config():
     SECRET_KEY = "geonames_2021_key"
@@ -33,26 +36,14 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 #########################################################
 # app.secret_key = "jianying"
 
+# @app.before_request
+# def load_user():
+#     if session["user"]:
+#         user = User.query.filter_by(username=session["user_id"]).first()
+#     else:
+#         user = {"name": "Guest"}  # Make it better, use an anonymous User instead
 
-# def form():
-#     # request: 请求对象  --> 获取请求方式、数据
-#     if request.method == 'POST' :    # 判断请求方式
-
-#         # 获取请求参数
-#         name = request.form.get('nom')
-#         password = request.form.get('password')
-#         print(name)
-
-#         if not all([name, password]):
-#             # print("Not all field is filled.")
-#             flash("请填写所有信息")
-#         else:
-#             return render_template('home.html')
-
-#     if request.method == "GET" :
-#         print(request.data)
-
-#     return render_template('index.html')
+#     g.user = user
 
 # if __name__ == '__main__':
     # app.run(host="0.0.0.0",port=8802, debug=True)

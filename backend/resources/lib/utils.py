@@ -1,16 +1,20 @@
-from flask import Flask, request, flash, url_for, redirect, render_template, Response
+from flask import Flask, request, flash, url_for, redirect, render_template, Response, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 import json
 from passlib.apps import custom_app_context as pwd_context
 from flask_login import UserMixin, LoginManager, logout_user, login_required
 
+from flask_httpauth import HTTPBasicAuth
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-__all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'load_user', 'login_manager', 'output_json']
 
+# __all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'load_user', 'login_manager', 'output_json']
+__all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'output_json', 'auth']
+#######################################################
+# login_manager = LoginManager()
+# login_manager.login_view = 'login_ep'
 
-login_manager = LoginManager()
-login_manager.login_view = 'login_ep'
 
 # Créer des chemins vers les bases de données
 BACKEND = Path(__file__).parent.parent.parent
@@ -20,7 +24,41 @@ ADMINS_DATA = DATA / "admins.json"
 DB_DATA = DATA / "locations.db"
 db = SQLAlchemy()
 
-class User(UserMixin, db.Model):
+###################################################
+auth = HTTPBasicAuth()
+@auth.verify_password
+def verify_password(id_or_token,password):
+    user = User.verify_auth_token(id_or_token)
+    if not user:
+        user = User.query.filter_by(id = id_or_token).first()
+        if not user or not user.verify_password(password):
+            return False
+    g.user = user
+    return True
+
+def unauthorized(message):
+    response = jsonify({'error': 'unauthorized', 'message': message})
+    response.status_code = 401
+    return response
+
+@auth.error_handler
+def auth_error():
+    return unauthorized('Invalid credentials')
+
+# def forbidden(message):
+#     response = jsonify({'error': 'forbidden', 'message': message})
+#     response.status_code = 403
+#     return response
+
+
+# @auth.login_required
+# def before_request():
+#     if not g.current_user.is_anonymous and \
+#             not g.current_user.confirmed:
+#         return forbidden('Unconfirmed account')
+
+# class User(UserMixin, db.Model):
+class User(db.Model):
     """
     cette classe lie le tableau "users" dans base de données et crée une instance de user
     """
@@ -40,10 +78,24 @@ class User(UserMixin, db.Model):
         """
         return pwd_context.verify(password, self.password_hash)
 
+    def generate_auth_token(self, expiration = 600):
+        s = Serializer("ced7bc208f304df1b501346dddbacf6b", expires_in = expiration)
+        return s.dumps({ 'id': self.id })
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer("ced7bc208f304df1b501346dddbacf6b")
+        try:
+            data = s.loads(token)
+        except:
+            return None # invalid token/ expired token
+        user = User.query.get(data['id'])
+        return user
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
+
+
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(user_id)
 
 def load_data(tablename):
     """

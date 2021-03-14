@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for, redirect, session, flash, jsonify, abort
+from flask import Flask, request, url_for, redirect, session, flash, jsonify, abort, g
 import json
 from flask_login import login_user, logout_user, login_required
 import os
@@ -8,7 +8,8 @@ from passlib.apps import custom_app_context as pwd_context
 from .lib.utils import *
 
 
-__all__ =['Login', 'CreateAdmin', 'Logout']
+# from flask.views import MethodView
+__all__ =['Login', 'CreateAdmin', 'Logout','AuthToken']
 
 # importer l'info des collaborateurs stockée dans "users.json"
 false = False
@@ -19,6 +20,14 @@ users = load_data('users')
 route de cette page:
 /admins/add
 """
+
+
+
+class AuthToken(Resource):
+    @auth.login_required
+    def get(self):
+        token = g.user.generate_auth_token()
+        return {'token':token.decode('ascii')}
 
 
 class Login(Resource):
@@ -48,8 +57,11 @@ class Login(Resource):
             msg = "Verifiez votre nom, votre id ou votre mot de passe, s'il vous plaît !"
             return output_json({"message" : msg}, code=400)
         else:
-            login_user(user)
-            return output_json({'username': username}, code=200)
+            # login_user(user)
+            # print(request.authorization)
+            # auth = request.authorization
+            token = user.generate_auth_token()
+            return output_json({'userid': userid, 'token':token.decode('ascii'), 'username':username}, code=200)
             # return {'username': username}, 200
         
 
@@ -57,12 +69,12 @@ class Logout(Resource):
     """
     route : /admins/logout
     """
-    @login_required
+    @auth.login_required
     def get(self):
         """
         cette méthode supprime l'info stocké dans session et réoriente vers la page d'accueil
         """
-        logout_user()
+        # logout_user()
         return redirect(url_for('home_ep'))
 
 

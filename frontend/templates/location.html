@@ -1,220 +1,186 @@
 {% extends "base.html" %}
 
-{% block title %}
-{{ location.name }}
-{% endblock %}
+{% block head %}
+    {{super()}}
 
-{% block control %}
-&nbsp;
-{% endblock %}
-
-<!DOCTYPE html>
-<html lang='fr'>
-    <head>
-        <meta CharacterSet='UTF-8'>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>{% block title %} Digidata Géonames {% endblock %}</title>
-
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script type="text/javascript">
-            function openwindow(){
-                //获取弹窗得div
-                var modal = document.getElementById('myModal');
-                // 获取 <span> 元素，用于关闭弹窗 （X）
-                var span = document.getElementsByClassName("close")[0];
-                //获取弹窗中得确定按钮
-                var ok=document.getElementsByClassName("ok")[0];
-                //获取弹窗中得取消按钮
-                var no=document.getElementsByClassName("no")[0];
-                //窗体弹出
-                modal.style.display = "block";
-                //点击窗体ok
-                ok.onclick=function(){
-                    //执行弹出窗体得确定后得操作
-                    alert("Cliquer sur OK pour confirmer votre modification");
-                    //关闭窗口
-                    modal.style.display = "none";
-                }
-                //点击窗体取消按钮
-                no.onclick=function(){
-                    //直接关闭窗口
-                    modal.style.display = "none";
-                }
-                // 点击 <span> (x), 关闭弹窗
-                span.onclick = function() {
-                    //直接关闭窗口
-                    modal.style.display = "none";
-                }
-                // 在用户点击其他地方时，关闭弹窗
-                window.onclick = function(event) {
-                    //点击窗口外内容，关闭窗口
-                    if (event.target == modal) modal.style.display = "none";
-                }
+    <script type="text/javascript">
+        function openwindow(){
+            var modal = document.getElementById('myModal');
+            var span = document.getElementsByClassName("close")[0];
+            var ok=document.getElementsByClassName("ok")[0];
+            var no=document.getElementsByClassName("no")[0];
+            modal.style.display = "block";
+            ok.onclick=function(){
+                alert("Cliquer sur OK pour confirmer votre modification");
+                modal.style.display = "none";
             }
-        </script>
+            no.onclick=function(){
+                modal.style.display = "none";
+            }
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) modal.style.display = "none";
+            }
+        }
+    </script>
 
     <script type="text/javascript">
         function openwindowdelete(){
             alert("Cliquer sur OK pour confirmer la suppression de cette location.");
         }
-    
     </script>
 
-        <style>
-            h2 {
-                text-align: center;
-                padding: 30px 15px;
-            }
-
-            .form-search{
-                margin: auto;
-                text-align: center;
-                width: 30%;
-            }
-
-            caption{
-                text-align: center;
-                font-size:large;
-            }
-
-            .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            padding-top: 50px;
-            padding-bottom: 50px;
-            width: 100%; 
-            height:  100%; 
-            overflow: auto; 
-            background-color: rgb(0,0,0); 
-            background-color: rgba(0,0,0,0.4);
+    <style>
+        h2 {
             text-align: center;
-            }
+            padding: 30px 15px;
+        }
 
-            .modal-content {
-            background-color: #fefefe;
+        .form-search{
             margin: auto;
-            padding: auto;
-            width: 500px;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-            -webkit-animation-name: animatetop;
-            -webkit-animation-duration: 0.4s;
-            animation-name: animatetop;
-            animation-duration: 0.4s
-            }
-
-            .close {
-            color: white;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            }
-
-            .close:hover, .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-            }
-
-            .modal-header {
-            display: block;
-            line-height: 1px;
-            padding: 1px 1px;
-            background-color:cadetblue;
-            color: white;
             text-align: center;
-            }
+            width: 30%;
+        }
 
-            .modal-body {
-            padding: 20px;
-            font-size: 12px;
-            height: 500px;
-            }
+        caption{
+            text-align: center;
+            font-size:large;
+        }
 
-            .modal-footer {
-            display: block;
-            line-height: 30px;
-            padding: 2px 10px;
-            background-color:cadetblue;
-            color:black;
-            }
-        </style>
-    </head>
+        .modal {
+        display: none; 
+        position: fixed; 
+        z-index: 1; 
+        left: 0;
+        top: 0;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        width: 100%; 
+        height:  100%; 
+        overflow: auto; 
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0,0.4);
+        text-align: center;
+        }
+
+        .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: auto;
+        width: 500px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+        }
+
+        .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover, .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        .modal-header {
+        display: block;
+        line-height: 1px;
+        padding: 1px 1px;
+        background-color:cadetblue;
+        color: white;
+        text-align: center;
+        }
+
+        .modal-body {
+        padding: 20px;
+        font-size: 12px;
+        height: 500px;
+        }
+
+        .modal-footer {
+        display: block;
+        line-height: 30px;
+        padding: 2px 10px;
+        background-color:cadetblue;
+        color:black;
+        }
+    </style>
+{% endblock %}
 
 
-<body>
-    {% block disp %}
-    <table id="book_info" class="table table-responsive" width="80%">
-        <caption><h4>Information de location <strong>{{ location.name }}</strong></h4></caption>
+    {% block content %}
+    {% for location in results.values() %}
+    <table id="book_info" class="table table-responsive" width="80%" method="GET">
+        <caption><h4>Information de location <strong>{{ location['Name'] }}</strong></h4></caption>
         <tr>
-            <td class="info" style="width:20%">geonameid</td>
-            <td style="width:30%">{{ location.geonameid }}</td>   
-            <td class="info" style="width:20%">name</td>
-            <td style="width:30%">{{ location.name }}</td>
+            <td class="info" style="width:20%">Geoname ID</td>
+            <td style="width:30%">{{ location['Geoname ID'] }}</td>   
+            <td class="info" style="width:20%">Name</td>
+            <td style="width:30%">{{ location['Name'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">asciiname</td>
-            <td style="width:30%">{{ location.asciiname }}</td>
-            <td class="info" style="width:20%">alternatenames</td>
-            <td style="width:30%">{{ location.alternatenames }}</td>
+            <td class="info" style="width:20%">Asciiname</td>
+            <td style="width:30%">{{ location['Ascii Name'] }}</td>
+            <td class="info" style="width:20%">Alternate Names</td>
+            <td style="width:30%">{{ location['Alternate Names'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">latitude</td>
-            <td style="width:30%">{{ location.latitude }}</td>
-            <td class="info" style="width:20%">longtitude</td>
-            <td style="width:30%">{{ location.longtitude }}</td>
+            <td class="info" style="width:20%">Latitude</td>
+            <td style="width:30%">{{ location['Latitude'] }}</td>
+            <td class="info" style="width:20%">Longtitude</td>
+            <td style="width:30%">{{ location['Longitude'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">feature_class</td>
-            <td style="width:30%">{{ location.feature_class }}</td>
-            <td class="info" style="width:20%">feature_code</td>
-            <td style="width:30%">{{ location.feature_code }}</td>
+            <td class="info" style="width:20%">Feature Class</td>
+            <td style="width:30%">{{ location['Feature class'] }}</td>
+            <td class="info" style="width:20%">Feature Code</td>
+            <td style="width:30%">{{ location['Feature code'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">country_code</td>
-            <td style="width:30%">{{ location.country_code }}</td>
-            <td class="info" style="width:20%">cc2</td>
-            <td style="width:30%">{{ location.cc2 }}</td>
+            <td class="info" style="width:20%">Country Code</td>
+            <td style="width:30%">{{ location['Country code'] }}</td>
+            <td class="info" style="width:20%">CC2</td>
+            <td style="width:30%">{{ location['CC2'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">admin1_code</td>
-            <td style="width:30%">{{ location.admin1_code }}</td>
-            <td class="info" style="width:20%">admin2_code</td>
-            <td style="width:30%">{{ location.admin2_code }}</td>
+            <td class="info" style="width:20%">Admin1 Code</td>
+            <td style="width:30%">{{ location['Admin1 code'] }}</td>
+            <td class="info" style="width:20%">Admin2 Code</td>
+            <td style="width:30%">{{ location['Admin2 code'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">admin3_code</td>
-            <td style="width:30%">{{ location.admin3_code }}</td>
-            <td class="info" style="width:20%">admin4_code</td>
-            <td style="width:30%">{{ location.admin4_code }}</td>
+            <td class="info" style="width:20%">Admin3 Code</td>
+            <td style="width:30%">{{ location['Admin3 code'] }}</td>
+            <td class="info" style="width:20%">Admin4 Code</td>
+            <td style="width:30%">{{ location['Admin4 code'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">population</td>
-            <td style="width:30%">{{ location.population }}</td>
-            <td class="info" style="width:20%">elevation</td>
-            <td style="width:30%">{{ location.elevation }}</td>
+            <td class="info" style="width:20%">Population</td>
+            <td style="width:30%">{{ location['Population'] }}</td>
+            <td class="info" style="width:20%">Elevation</td>
+            <td style="width:30%">{{ location['Elevation'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">dem</td>
-            <td style="width:30%">{{ location.dem }}</td>
-            <td class="info" style="width:20%">timezone</td>
-            <td style="width:30%">{{ location.timezone }}</td>
+            <td class="info" style="width:20%">Dem</td>
+            <td style="width:30%">{{ location['Dem'] }}</td>
+            <td class="info" style="width:20%">Timezone</td>
+            <td style="width:30%">{{ location['Timezone'] }}</td>
         </tr>
         <tr>
-            <td class="info" style="width:20%">modification_date</td>
-            <td style="width:30%">{{ location.modification_date }}</td>
+            <td class="info" style="width:20%">Modification date</td>
+            <td style="width:30%">{{ location['Modification date'] }}</td>
         </tr>
     </table>
-        {% endblock %}
+        {% endfor %}
+    {% endblock %}
 
         <div>
             <button class="btn" onclick="openwindowdelete()">Supprimer</button>
@@ -228,7 +194,7 @@
                     <h2> Modifier une location</h2>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline" method="PUT" action="{{url_for('chercher')}}">
+                    <form class="form-inline" method="PUT">
                         <label for="geonameid">Geoname ID :  </label>
                         <input type="text" name="geonameid" placeholder="geonameid"><br>
                         <label for="name">Name : </label>
@@ -274,7 +240,5 @@
                 </div>
                 </div>
         </div>
-
-</body>
 
     

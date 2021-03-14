@@ -1,7 +1,7 @@
 import requests
 import json
 
-__all__ =['home_page', 'user_create_page', 'user_login_page', 'user_logout']
+__all__ =['home_page', 'user_create_page', 'user_login_page']
 
 API_URL = "http://127.0.0.1:5000/api"
 CREATE_USER = API_URL + "/admins/create"
@@ -23,13 +23,16 @@ def user_create_page(data):
     return req.status_code, req.json()
 
 def user_login_page(data):
+    # datas = (userid,password)
+    # datas = {'username':username, 'id':userid, 'password':password}
     datas = dict(data)
     resp = requests.post(USER_LOGIN, data=datas)
+    # resp = requests.post(USER_LOGIN, data=datas, auth=auth)
     return resp.status_code, resp.json()
 
-def user_logout():
-    resp = requests.get(USER_LOGOUT)
-    return resp.status_code, resp.json()
+# def user_logout():
+#     resp = requests.get(USER_LOGOUT)
+#     return resp.status_code, resp.json()
 
 # payload = {'username':'Jianying', 'id':'006', 'password':'12345'}
 # r = requests.post(CREATE_USER, data=payload)

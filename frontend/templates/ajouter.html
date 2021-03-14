@@ -1,61 +1,98 @@
 {% extends "base.html" %}
-<!DOCTYPE html>
-<html lang="fr">
-<body>
 
-{% block disp %}
+{% block styles %}
+    {{super()}}
+    <style>
+        h2,h3 {
+            padding:0;
+            text-align: center;
+        }
 
-{%- for category, message in get_flashed_messages(with_categories = true) %}
-<div class = "alert alert-danger">
-   {{ message }}
-</div>
-{%- endfor %}
+        .form-search{
+            margin: auto;
+            text-align: center;
+            width: 30%;
+        }
 
-<div>
-    <h2> Ajouter une location : </h2>
-    <form class="form-inline" method="POST" action="{{url_for('chercher')}}">
-        <label for="geonameid">Geoname ID :  </label>
-        <input type="text" name="geonameid" placeholder="geonameid"><br>
-        <label for="name">Name : </label>
-        <input type="text" name="name" placeholder="name"><br>
-        <label for="asciiname">Ascii Name :  </label>
-        <input type="text" name="asciiname" placeholder="asciiname"><br>
-        <label for="alternatenames">Alternate Names :  </label>
-        <input type="text" name="alternatenames" placeholder="alternatenames"><br>
-        <label for="latitude">Latitude : </label>
-        <input type="text" name="latitude" placeholder="latitude"><br>
-        <label for="longitude">Longitude : </label>
-        <input type="text" name="longitude" placeholder="longitude"><br>
-        <label for="feature_class">Feature class : </label>
-        <input type="text" name="feature_class" placeholder="feature_class"><br>
-        <label for="feature_code">Feature code :</label>
-        <input type="text" name="feature_code" placeholder="feature_code"><br>
-        <label for="country_code">Country code : </label>
-        <input type="text" name="country_code" placeholder="country_code"><br>
-        <label for="cc2">CC2 : </label>
-        <input type="text" name="cc2" placeholder="cc2"><br>
-        <label for="admin1_code">Admin1 code : </label>
-        <input type="text" name="admin1_code" placeholder="admin1_code"><br>
-        <label for="admin2_code">Admin2 code : </label>
-        <input type="text" name="admin2_code" placeholder="admin2_code"><br>
-        <label for="admin3_code">Admin3 code : </label>
-        <input type="text" name="admin3_code" placeholder="admin3_code"><br>
-        <label for="admin4_code">Admin4 code : </label>
-        <input type="text" name="admin4_code" placeholder="admin4_code"><br>
-        <label for="population">Population : </label>
-        <input type="text" name="population" placeholder="population"><br>
-        <label for="elevation">Elevation : </label>
-        <input type="text" name="elevation" placeholder="elevation"><br>
-        <label for="dem">Dem :  </label>
-        <input type="text" name="dem" placeholder="dem"><br>
-        <label for="timezone">Timezone : </label>
-        <input type="text" name="timezone" placeholder="timezone"><br>
-        <label for="modification_date">Modification date : </label>
-        <input type="text" name="modification_date" placeholder="modification_date"><br>
-        <input type="submit" value="Valider">
-    </form>
-</div>
+        .form-inline{
+            text-align: center;
+        }
+
+        .revenir{
+            text-align: right;
+        }
+
+        caption{
+            text-align: center;
+            font-size:large;
+        } 
+
+    </style>
+{% endblock %}
+
+{% block page_content %}
+{% if api_error %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ msg }}
+    </div>
+{% endif %}
+
+{% if api_success %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ msg }}
+    </div>
+{% endif %}
+
+    <div class="revenir">
+        <a href="{{ url_for('locations.search_results_page') }}">Revenir à la page de recherche</a>
+    </div>
+        
+        <form class="form-inline" method="POST">
+            <h2>Ajouter une location</h2>
+            <label for="geonameid">Geoname ID :  </label>
+            <input type="text" name="geonameid" placeholder="geonameid"><br>
+            <label for="name">Name : </label>
+            <input type="text" name="name" placeholder="name"><br>
+            <label for="asciiname">Ascii Name :  </label>
+            <input type="text" name="asciiname" placeholder="asciiname"><br>
+            <label for="alternatenames">Alternate Names :  </label>
+            <input type="text" name="alternatenames" placeholder="alternatenames"><br>
+            <label for="latitude">Latitude : </label>
+            <input type="text" name="latitude" placeholder="latitude"><br>
+            <label for="longitude">Longitude : </label>
+            <input type="text" name="longitude" placeholder="longitude"><br>
+            <label for="feature_class">Feature class : </label>
+            <input type="text" name="feature_class" placeholder="feature_class"><br>
+            <label for="feature_code">Feature code :</label>
+            <input type="text" name="feature_code" placeholder="feature_code"><br>
+            <label for="country_code">Country code : </label>
+            <input type="text" name="country_code" placeholder="country_code"><br>
+            <label for="cc2">CC2 : </label>
+            <input type="text" name="cc2" placeholder="cc2"><br>
+            <label for="admin1_code">Admin1 code : </label>
+            <input type="text" name="admin1_code" placeholder="admin1_code"><br>
+            <label for="admin2_code">Admin2 code : </label>
+            <input type="text" name="admin2_code" placeholder="admin2_code"><br>
+            <label for="admin3_code">Admin3 code : </label>
+            <input type="text" name="admin3_code" placeholder="admin3_code"><br>
+            <label for="admin4_code">Admin4 code : </label>
+            <input type="text" name="admin4_code" placeholder="admin4_code"><br>
+            <label for="population">Population : </label>
+            <input type="text" name="population" placeholder="population"><br>
+            <label for="elevation">Elevation : </label>
+            <input type="text" name="elevation" placeholder="elevation"><br>
+            <label for="dem">Dem :  </label>
+            <input type="text" name="dem" placeholder="dem"><br>
+            <label for="timezone">Timezone : </label>
+            <input type="text" name="timezone" placeholder="timezone"><br>
+            <label for="modification_date">Modification date : </label>
+            <input type="text" name="modification_date" placeholder="modification_date"><br><br>
+            <label for="add" class="sr-only"></label>
+            <button class="btn" id="add" class="btn btn-lg btn-primary btn-block" >Valider</button>        
+        </form>
+
 
 {% endblock %}
-</body>
-</html>
+

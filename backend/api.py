@@ -32,7 +32,7 @@ if app.config['SSL_REDIRECT']:
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # initier les module pour login_manager et database
-login_manager.init_app(app)
+# login_manager.init_app(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -40,9 +40,21 @@ app.app_context().push()
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 # CORS(app, supports_credentials=True)
 # api = Api(app, prefix='/api')
+
+# @app.route('/token', methods=['POST'])
+# @auth.login_required
+# class AuthToken(Resource):
+#     def get(self):
+#         token = g.user.generate_auth_token()
+#         return {'token':token.decode('ascii')}
+
+
 api = Api(app)
 
+
+
 api.add_resource(Home, '/', '/home', endpoint='home_ep')    #pade d'accueil GET
+api.add_resource(AuthToken, '/admins/token') 
 api.add_resource(Login, '/admins/login', endpoint='login_ep')  #se connecter GET POST
 api.add_resource(Logout, '/admins/logout', endpoint='logout_ep') # déconnecter  GET
 api.add_resource(CreateAdmin, '/admins/create', endpoint='admincreate_ep')  #s'inscrire GET POST

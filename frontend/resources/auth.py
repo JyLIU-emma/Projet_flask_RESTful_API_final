@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, g, session
 from frontend.models.api_connect import user_create_page, user_login_page
 
 
@@ -47,11 +47,16 @@ def login():
             flash(msg)
             return render_template('login.html', api_error=api_error, msg=msg)
         else:
+            session['userid'] = resp['userid']
+            session['token'] = resp['token']
+            session['username'] = resp['username']
+            # print(session['userid'],session['token'])
             return redirect(url_for('locations.search_results_page'))
 
 @auth_bp.route('/logout', methods=['GET'])
 def logout():
-    status_code, resp = user_logout()
+    session.clear()
+    return redirect(url_for('home.home'))
 
 
 # @app.route('/', methods=['GET'])

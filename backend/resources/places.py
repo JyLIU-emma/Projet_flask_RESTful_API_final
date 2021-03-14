@@ -12,7 +12,8 @@ info_list = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitude', 'lo
             'country_code', 'cc2', 'admin1_code', 'admin2_code', 'admin3_code', 'admin4_code', 'population', 'elevation', 'dem', 'timezone', 'modification_date']
 
 class AddPlace(Resource):
-    @login_required
+    # @login_required
+    @auth.login_required
     def get(self):
         """
         @api {get} https://home/geonames/add /geonames/add : Méthode GET
@@ -67,7 +68,8 @@ class AddPlace(Resource):
         """
         return {'infolist':info_list}
 
-    @login_required
+    # @login_required
+    @auth.login_required
     def post(self):
         """
 
@@ -188,7 +190,8 @@ class AddPlace(Resource):
 
 class SearchPlaces(Resource):
 
-    @login_required
+    # @login_required
+    @auth.login_required
     def get(self):
         """
         @api {get} https://home/geonames /geonames : Méthode GET
@@ -253,7 +256,8 @@ class SearchPlaces(Resource):
 
 
 class PlaceInfoPage(Resource):
-    @login_required
+    # @login_required
+    @auth.login_required
     def get(self, geonameid):
         """
         @api {get} https://home/geonames/<geonameid> /geonames/<geonameid> : Méthode GET
@@ -342,7 +346,8 @@ class PlaceInfoPage(Resource):
         }
         return { geonameid : cityinfo }
 
-    @login_required
+    # @login_required
+    @auth.login_required
     def put(self, geonameid):
         """
         @api {put} https://home/geonames/<geonameid> /geonames/<geonameid> : Méthode PUT
@@ -434,7 +439,8 @@ class PlaceInfoPage(Resource):
         msg = '****Les informations de {}({}) est bien modifiées.****'.format(user_info[1], geonameid)
         return {"message":msg}
 
-    @login_required
+    # @login_required
+    @auth.login_required
     def delete(self, geonameid):
         """
         @api {delete} https://home/geonames/<geonameid> /geonames/<geonameid> : Méthode DELETE

@@ -1,15 +1,31 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    {{super()}}
+    <style>
+        .form-signin {
+            text-align: center;
+            width: 40%;
+            margin:auto;
+        }
+        .foot{
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }       
+    </style>
+{% endblock %}
+
+
 {% block page_content %}
-{% if api_error %}
-    <div class="alert alert-warning">
+{% if api_success %}
+    <div class="alert alert-success">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ msg }}
     </div>
 {% endif %}
 
 <form class="form-signin" action="{{ url_for('auth.login') }}" method="post">
-    <h2 class="form-signin-heading">Se connecter votre compte</h2>
+    <h2 class="form-signin-heading">Se connecter au votre compte</h2>
     <label for="username" class="sr-only">Username : </label>
     <input type="text" name="username" class="form-control" placeholder="Username"><br>
     <label for="id" class="sr-only">ID : </label>
