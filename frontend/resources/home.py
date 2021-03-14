@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from frontend.models.api_connect import home_page
 from .auth import auth_bp
 
+
+__all__ =['home_bp', 'index']
+
 home_bp = Blueprint("home", __name__)
 
 

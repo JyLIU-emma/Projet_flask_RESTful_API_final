@@ -1,6 +1,8 @@
 import requests
 import json
 
+__all__ =['home_page', 'user_create_page', 'user_login_page', 'user_logout']
+
 API_URL = "http://127.0.0.1:5000/api"
 CREATE_USER = API_URL + "/admins/create"
 USER_LOGIN = API_URL + "/admins/login"

@@ -6,6 +6,7 @@ from flask_cors import CORS
 # from .models.api_connect import home_page, user_create_page
 from .resources import auth, home, location
 
+__all__ =['app']
 
 bootstrap = Bootstrap()
 

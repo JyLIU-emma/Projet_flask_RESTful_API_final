@@ -1,6 +1,10 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from frontend.models.api_connect import user_create_page, user_login_page
 
+
+__all__ =['auth_bp', 'add_admin', 'login', 'logout']
+
+
 auth_bp = Blueprint("auth", __name__, url_prefix='/admins')
 
 @auth_bp.route('/create', methods=['GET', 'POST'])

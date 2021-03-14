@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request
 from frontend.models.api_connect import home_page
 
+__all__ =['place_bp', 'search_results_page', 'add_location_page', 'one_location_page']
+
 place_bp = Blueprint("locations", __name__, url_prefix="/geonames")
 
 
