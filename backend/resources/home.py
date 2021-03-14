@@ -19,4 +19,4 @@ class Home(Resource):
             return redirect(url_for('login_ep'))
         elif choice == 'create':
             return redirect(url_for('admincreate_ep'))
-        return {'message':'home page'}
+        return {'message':"page d'accueil"}

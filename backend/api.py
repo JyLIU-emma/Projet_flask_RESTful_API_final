@@ -5,6 +5,7 @@ from flask_restful import Resource, Api
 from pathlib import Path
 from .resources import *
 from flask_login import LoginManager
+from flask_cors import CORS
 import os
 
 
@@ -34,6 +35,8 @@ if app.config['SSL_REDIRECT']:
 login_manager.init_app(app)
 db.init_app(app)
 migrate = Migrate(app, db)
+CORS(app, supports_credentials=True)
+# api = Api(app, prefix='/api')
 api = Api(app)
 
 api.add_resource(Home, '/', '/home', endpoint='home_ep')    #pade d'accueil GET

@@ -41,15 +41,16 @@ class Login(Resource):
 
         if not all([username, password, userid]):
             msg = "Rempliez tous les champs, s'il vous plaît!"
-            abort(400, msg)
+            return output_json({"massage" : msg}, code=400)
 
         user = User.query.filter_by(id = userid).first()
         if not user or not user.verify_password(password) or not username == user.username:
             msg = "Verifiez votre nom, votre id ou votre mot de passe, s'il vous plaît !"
-            abort(400, msg)
+            return output_json({"massage" : msg}, code=400)
         else:
             login_user(user)
-            return {'username': user.username}, 200
+            return output_json({'username': username}, code=200)
+            # return {'username': username}, 200
         
 
 class Logout(Resource):
@@ -70,7 +71,7 @@ class CreateAdmin(Resource):
     route: /admins/create
     """
     def get(self):
-        return {'message': 'page de création du compte'}
+        return output_json({'message': 'page de création du compte'}, code=200)
     
     def post(self):
         """
@@ -86,15 +87,15 @@ class CreateAdmin(Resource):
         password2 = request.form.get('passwordconfirm')
 
         if not all([username, userid, password, password2]):
-            abort(400, "Veuillez remplir tous les champs.") #missing arguments
+            return output_json({'massage':"Veuillez remplir tous les champs."}, code=400) #missing arguments
         elif userid not in users.keys():
-            abort(400, "Désolée, vous n'êtes pas notre collaborateur, vous ne pouvez pas créer un compte.")
+            return output_json({'massage':"Désolée, vous n'êtes pas notre collaborateur, vous ne pouvez pas créer un compte."}, code=400)
         elif User.query.filter_by(username = username).first() is not None:
-            abort(400, 'Vous avez déjà un compte.') #existing user
+            return output_json({'massage':"Vous avez déjà un compte."}, code=400) #existing user
         elif username != users[userid]["nom"] :
-            abort(400, "Votre id ne conforme pas à votre nom. ")
+            return output_json({'massage':"Votre id ne conforme pas à votre nom. "}, code=400)
         elif password != password2 :
-            abort(400, "Les deux mots de passe remplis doivent être identiques.")
+            return output_json({'massage':"Les deux mots de passe remplis doivent être identiques."}, code=400)
 
         user = User(username = username, id = userid)
         user.hash_password(password)
@@ -102,4 +103,4 @@ class CreateAdmin(Resource):
         db.session.commit()
 
         msg = "Votre compte admin a bien été créé."
-        return {"massage" : msg}, 201
+        return output_json({"massage" : msg}, code=201)

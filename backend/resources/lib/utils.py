@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import Flask, request, flash, url_for, redirect, render_template, Response
 from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 import json
@@ -6,7 +6,7 @@ from passlib.apps import custom_app_context as pwd_context
 from flask_login import UserMixin, LoginManager, logout_user, login_required
 
 
-__all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'load_user', 'login_manager']
+__all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'load_user', 'login_manager', 'output_json']
 
 
 login_manager = LoginManager()
@@ -54,6 +54,16 @@ def load_data(tablename):
             data_dico = json.load(f)
     return data_dico
 
+def output_json(data, header={}, code=200):
+    head = {
+            "project": "Techniques web - 2021",
+            "license": "Creative Common 2.0",
+            "Access-Control-Allow-Origin":"*"
+        }
+    headers = dict(head, **header)
+    resp = Response(json.dumps(data), status=code, headers=headers,
+                    content_type='application/json')
+    return resp
 
 class fr(db.Model):
     """

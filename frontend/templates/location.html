@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ location.name }}
+{% endblock %}
+
+{% block control %}
+&nbsp;
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang='fr'>
+    <head>
+        <meta CharacterSet='UTF-8'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{% block title %} Digidata Géonames {% endblock %}</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            function openwindow(){
+                //获取弹窗得div
+                var modal = document.getElementById('myModal');
+                // 获取 <span> 元素，用于关闭弹窗 （X）
+                var span = document.getElementsByClassName("close")[0];
+                //获取弹窗中得确定按钮
+                var ok=document.getElementsByClassName("ok")[0];
+                //获取弹窗中得取消按钮
+                var no=document.getElementsByClassName("no")[0];
+                //窗体弹出
+                modal.style.display = "block";
+                //点击窗体ok
+                ok.onclick=function(){
+                    //执行弹出窗体得确定后得操作
+                    alert("Cliquer sur OK pour confirmer votre modification");
+                    //关闭窗口
+                    modal.style.display = "none";
+                }
+                //点击窗体取消按钮
+                no.onclick=function(){
+                    //直接关闭窗口
+                    modal.style.display = "none";
+                }
+                // 点击 <span> (x), 关闭弹窗
+                span.onclick = function() {
+                    //直接关闭窗口
+                    modal.style.display = "none";
+                }
+                // 在用户点击其他地方时，关闭弹窗
+                window.onclick = function(event) {
+                    //点击窗口外内容，关闭窗口
+                    if (event.target == modal) modal.style.display = "none";
+                }
+            }
+        </script>
+
+    <script type="text/javascript">
+        function openwindowdelete(){
+            alert("Cliquer sur OK pour confirmer la suppression de cette location.");
+        }
+    
+    </script>
+
+        <style>
+            h2 {
+                text-align: center;
+                padding: 30px 15px;
+            }
+
+            .form-search{
+                margin: auto;
+                text-align: center;
+                width: 30%;
+            }
+
+            caption{
+                text-align: center;
+                font-size:large;
+            }
+
+            .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            width: 100%; 
+            height:  100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4);
+            text-align: center;
+            }
+
+            .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: auto;
+            width: 500px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+            }
+
+            .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            }
+
+            .close:hover, .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+            }
+
+            .modal-header {
+            display: block;
+            line-height: 1px;
+            padding: 1px 1px;
+            background-color:cadetblue;
+            color: white;
+            text-align: center;
+            }
+
+            .modal-body {
+            padding: 20px;
+            font-size: 12px;
+            height: 500px;
+            }
+
+            .modal-footer {
+            display: block;
+            line-height: 30px;
+            padding: 2px 10px;
+            background-color:cadetblue;
+            color:black;
+            }
+        </style>
+    </head>
+
+
+<body>
+    {% block disp %}
+    <table id="book_info" class="table table-responsive" width="80%">
+        <caption><h4>Information de location <strong>{{ location.name }}</strong></h4></caption>
+        <tr>
+            <td class="info" style="width:20%">geonameid</td>
+            <td style="width:30%">{{ location.geonameid }}</td>   
+            <td class="info" style="width:20%">name</td>
+            <td style="width:30%">{{ location.name }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">asciiname</td>
+            <td style="width:30%">{{ location.asciiname }}</td>
+            <td class="info" style="width:20%">alternatenames</td>
+            <td style="width:30%">{{ location.alternatenames }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">latitude</td>
+            <td style="width:30%">{{ location.latitude }}</td>
+            <td class="info" style="width:20%">longtitude</td>
+            <td style="width:30%">{{ location.longtitude }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">feature_class</td>
+            <td style="width:30%">{{ location.feature_class }}</td>
+            <td class="info" style="width:20%">feature_code</td>
+            <td style="width:30%">{{ location.feature_code }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">country_code</td>
+            <td style="width:30%">{{ location.country_code }}</td>
+            <td class="info" style="width:20%">cc2</td>
+            <td style="width:30%">{{ location.cc2 }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">admin1_code</td>
+            <td style="width:30%">{{ location.admin1_code }}</td>
+            <td class="info" style="width:20%">admin2_code</td>
+            <td style="width:30%">{{ location.admin2_code }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">admin3_code</td>
+            <td style="width:30%">{{ location.admin3_code }}</td>
+            <td class="info" style="width:20%">admin4_code</td>
+            <td style="width:30%">{{ location.admin4_code }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">population</td>
+            <td style="width:30%">{{ location.population }}</td>
+            <td class="info" style="width:20%">elevation</td>
+            <td style="width:30%">{{ location.elevation }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">dem</td>
+            <td style="width:30%">{{ location.dem }}</td>
+            <td class="info" style="width:20%">timezone</td>
+            <td style="width:30%">{{ location.timezone }}</td>
+        </tr>
+        <tr>
+            <td class="info" style="width:20%">modification_date</td>
+            <td style="width:30%">{{ location.modification_date }}</td>
+        </tr>
+    </table>
+        {% endblock %}
+
+        <div>
+            <button class="btn" onclick="openwindowdelete()">Supprimer</button>
+            <button class="btn" onclick="openwindow()">Modifier</button>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2> Modifier une location</h2>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" method="PUT" action="{{url_for('chercher')}}">
+                        <label for="geonameid">Geoname ID :  </label>
+                        <input type="text" name="geonameid" placeholder="geonameid"><br>
+                        <label for="name">Name : </label>
+                        <input type="text" name="name" placeholder="name"><br>
+                        <label for="asciiname">Ascii Name :  </label>
+                        <input type="text" name="asciiname" placeholder="asciiname"><br>
+                        <label for="alternatenames">Alternate Names :  </label>
+                        <input type="text" name="alternatenames" placeholder="alternatenames"><br>
+                        <label for="latitude">Latitude : </label>
+                        <input type="text" name="latitude" placeholder="latitude"><br>
+                        <label for="longitude">Longitude : </label>
+                        <input type="text" name="longitude" placeholder="longitude"><br>
+                        <label for="feature_class">Feature class : </label>
+                        <input type="text" name="feature_class" placeholder="feature_class"><br>
+                        <label for="feature_code">Feature code :</label>
+                        <input type="text" name="feature_code" placeholder="feature_code"><br>
+                        <label for="country_code">Country code : </label>
+                        <input type="text" name="country_code" placeholder="country_code"><br>
+                        <label for="cc2">CC2 : </label>
+                        <input type="text" name="cc2" placeholder="cc2"><br>
+                        <label for="admin1_code">Admin1 code : </label>
+                        <input type="text" name="admin1_code" placeholder="admin1_code"><br>
+                        <label for="admin2_code">Admin2 code : </label>
+                        <input type="text" name="admin2_code" placeholder="admin2_code"><br>
+                        <label for="admin3_code">Admin3 code : </label>
+                        <input type="text" name="admin3_code" placeholder="admin3_code"><br>
+                        <label for="admin4_code">Admin4 code : </label>
+                        <input type="text" name="admin4_code" placeholder="admin4_code"><br>
+                        <label for="population">Population : </label>
+                        <input type="text" name="population" placeholder="population"><br>
+                        <label for="elevation">Elevation : </label>
+                        <input type="text" name="elevation" placeholder="elevation"><br>
+                        <label for="dem">Dem :  </label>
+                        <input type="text" name="dem" placeholder="dem"><br>
+                        <label for="timezone">Timezone : </label>
+                        <input type="text" name="timezone" placeholder="timezone"><br>
+                        <label for="modification_date">Modification date : </label>
+                        <input type="text" name="modification_date" placeholder="modification_date"><br>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="ok">Valider</button>&nbsp;<button class="no">Annuler</button>
+                </div>
+                </div>
+        </div>
+
+</body>
+
+    

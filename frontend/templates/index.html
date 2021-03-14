@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="page-header">
+    <h2>Bienvenue dans la {{ msg }} de <a href="{{ url_for('home.home') }}">Digidata Géonames </a> !</h2>
+    <h3>Connectez-vous afin d'explorer notre plateforme.</h3>
+</div>
+<form method="GET">
+    <input type="submit" name="choice" value="créer un compte" />
+    <input type="submit" name="choice" value="login" />
+</form>
+{% endblock %}
