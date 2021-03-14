@@ -23,10 +23,10 @@ def user_create_page(data):
 def user_login_page(data):
     datas = dict(data)
     resp = requests.post(USER_LOGIN, data=datas)
-    # print(req)
-    # print(req.content)
-    # print(req.headers)
-    # print(resp.json())
+    return resp.status_code, resp.json()
+
+def user_logout():
+    resp = requests.get(USER_LOGOUT)
     return resp.status_code, resp.json()
 
 # payload = {'username':'Jianying', 'id':'006', 'password':'12345'}

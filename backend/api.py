@@ -35,7 +35,10 @@ if app.config['SSL_REDIRECT']:
 login_manager.init_app(app)
 db.init_app(app)
 migrate = Migrate(app, db)
-CORS(app, supports_credentials=True)
+
+app.app_context().push()
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+# CORS(app, supports_credentials=True)
 # api = Api(app, prefix='/api')
 api = Api(app)
 

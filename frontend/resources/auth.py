@@ -45,6 +45,10 @@ def login():
         else:
             return redirect(url_for('locations.search_results_page'))
 
+@auth_bp.route('/logout', methods=['GET'])
+def logout():
+    status_code, resp = user_logout()
+
 
 # @app.route('/', methods=['GET'])
 # def home():

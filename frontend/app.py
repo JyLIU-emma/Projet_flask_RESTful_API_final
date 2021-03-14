@@ -17,7 +17,7 @@ def create_app():
     app_front = Flask(__name__)
     app_front.config.from_object(Config)
     bootstrap.init_app(app_front)
-    CORS(app_front, supports_credentials=True)
+    # CORS(app_front, supports_credentials=True)
 
     app_front.register_blueprint(auth.auth_bp)
     app_front.register_blueprint(home.home_bp)
@@ -26,7 +26,10 @@ def create_app():
     return app_front
 
 app = create_app()
-
+#########################################################
+app.app_context().push()
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+#########################################################
 # app.secret_key = "jianying"
 
 
