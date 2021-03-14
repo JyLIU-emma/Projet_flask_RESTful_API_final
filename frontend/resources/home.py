@@ -13,7 +13,7 @@ def index():
         status_code, msg = home_page(choice)
         return render_template('index.html', msg=msg['message'])
     
-    if choice == "créer un compte":
+    if choice == "Créer un compte":
         return redirect(url_for('auth.add_admin'))
     elif choice == "Login":
         return redirect(url_for('auth.login'))  ########################33
