@@ -40,6 +40,119 @@
   },
   {
     "type": "get",
+    "url": "https://home",
+    "title": "home : Méthode GET",
+    "version": "1.0.0",
+    "group": "ClassData",
+    "description": "<p>Selon les données fournies, cette page va réorienter vers la page de login ou la page de création du compte.</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "choice",
+            "description": "<p>: 'login' ou 'create'</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:  ",
+          "content": "{\n    \"message\": \"home page\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./resources/home.py",
+    "groupTitle": "ClassData",
+    "name": "GetHttpsHome"
+  },
+  {
+    "type": "get",
+    "url": "https://home/admins/create",
+    "title": "/admins/create : Méthode POST",
+    "version": "1.0.0",
+    "group": "ClassData",
+    "description": "<p>cette méthode va créer une entrée de user dans le tableau &quot;users&quot; du db &quot;locations.db&quot;, elle: 1) reccueillit les infos remplies dans cette page; 2) teste toutes les infos 3) écrit dans le db 4) renvoie un message indiquant le résultat de l'opération</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:  ",
+          "content": "{\n    \"message(201)\": \"Votre compte admin a bien été créé.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"400\": \"Veuillez remplir tous les champs.\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"400\": \"Désolée, vous n'êtes pas notre collaborateur, vous ne pouvez pas créer un compte.\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"400\": \"Vous avez déjà un compte.\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"400\": \"Votre id ne conforme pas à votre nom. \"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "{\n    \"400\": \"Les deux mots de passe remplis doivent être identiques.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./resources/admins.py",
+    "groupTitle": "ClassData",
+    "name": "GetHttpsHomeAdminsCreate"
+  },
+  {
+    "type": "get",
+    "url": "https://home/admins/login",
+    "title": "/admins/login : Méthode GET",
+    "version": "1.0.0",
+    "group": "ClassData",
+    "description": "<p>afficher la page de login.</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:  ",
+          "content": "{\n    \"message\": \"login page\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./resources/admins.py",
+    "groupTitle": "ClassData",
+    "name": "GetHttpsHomeAdminsLogin"
+  },
+  {
+    "type": "get",
+    "url": "https://home/admins/logout",
+    "title": "/admins/logout : Méthode GET",
+    "version": "1.0.0",
+    "group": "ClassData",
+    "description": "<p>Cette méthode supprime l'info stocké dans session et réoriente vers la page d'accueil.</p>",
+    "filename": "./resources/admins.py",
+    "groupTitle": "ClassData",
+    "name": "GetHttpsHomeAdminsLogout"
+  },
+  {
+    "type": "get",
     "url": "https://home/geonames",
     "title": "/geonames : Méthode GET",
     "version": "1.0.0",
@@ -53,7 +166,7 @@
             "type": "String",
             "optional": false,
             "field": "name",
-            "description": ""
+            "description": "<p>nom de la location.</p>"
           }
         ]
       },

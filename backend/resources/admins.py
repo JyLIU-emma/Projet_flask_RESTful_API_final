@@ -76,7 +76,7 @@ class CreateAdmin(Resource):
     def post(self):
         """
         cette méthode va créer une entrée de user dans le tableau "users" du db "locations.db":
-        1) reccueillit les infos remplies dans cette page;
+        1) recueillir les infos remplies dans cette page;
         2) teste tous les infos
         3) écrit dans le db
         4) renvoie un message indiquant le résultat de l'opération
