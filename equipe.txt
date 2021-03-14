@@ -1,0 +1,10 @@
+Groupe 5
+Examen1
+LIU Jianying : configuration du serveur, back-end (Organiser la structure du script sous cadre de REST, debuger et vérifier le script en total), déploiement sur Heroku et rédaction de ce doc. 
+SHEN Xinyi : back-end(login et logout), manuel d'utilisation
+WANG Qi : back-end(manipuler la base de données), doc api, manuel d'utilisation, configuration du serveur
+
+Examen2
+WANG Qi: front-end (partie requête database, régler problème de templates), manuel (partie de requêtes sur la base de données)
+LIU Jianying : améliorer partie login de backend, front-end (connexion frontend-backend et la structure de frontend, partie auth), manuel (partie de auth)
+Xinyi SHEN: templates initiales
