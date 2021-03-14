@@ -3,15 +3,15 @@
 from flask import Flask, render_template, request, flash, session
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
-from flask_login import UserMixin, LoginManager, logout_user, login_required
+# from flask_login import UserMixin, LoginManager, logout_user, login_required
 # from .models.api_connect import home_page, user_create_page
 from .resources import auth, home, location
 
 __all__ =['app']
 
 bootstrap = Bootstrap()
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+# login_manager = LoginManager()
+# login_manager.login_view = 'auth.login'
 
 class Config():
     SECRET_KEY = "geonames_2021_key"

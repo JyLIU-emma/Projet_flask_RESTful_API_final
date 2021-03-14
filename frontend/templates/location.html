@@ -2,7 +2,17 @@
 
 {% block head %}
     {{super()}}
+    <meta CharacterSet='UTF-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>{% block title %} Digidata Géonames {% endblock %}</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         function openwindow(){
             var modal = document.getElementById('myModal');
@@ -38,6 +48,11 @@
             padding: 30px 15px;
         }
 
+        .revenir{
+            text-align: right;
+            padding-right: 10px;
+        }
+
         .form-search{
             margin: auto;
             text-align: center;
@@ -47,6 +62,10 @@
         caption{
             text-align: center;
             font-size:large;
+        }
+
+        .choix{
+            text-align: center;
         }
 
         .modal {
@@ -106,17 +125,38 @@
         }
 
         .modal-footer {
+        text-align: center;
         display: block;
         line-height: 30px;
         padding: 2px 10px;
         background-color:cadetblue;
         color:black;
         }
+
+        
     </style>
 {% endblock %}
 
 
-    {% block content %}
+{% block content %}
+    {% if api_error %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ msg }}
+    </div>
+    {% endif %}
+
+    {% if api_success %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ msg }}
+    </div>
+    {% endif %}
+
+    <div class="revenir">
+        <a href="{{ url_for('locations.search_results_page') }}">Revenir à la page de recherche</a>
+    </div>
+
     {% for location in results.values() %}
     <table id="book_info" class="table table-responsive" width="80%" method="GET">
         <caption><h4>Information de location <strong>{{ location['Name'] }}</strong></h4></caption>
@@ -180,13 +220,18 @@
         </tr>
     </table>
         {% endfor %}
-    {% endblock %}
 
-        <div>
-            <button class="btn" onclick="openwindowdelete()">Supprimer</button>
-            <button class="btn" onclick="openwindow()">Modifier</button>
+ 
+        <div class="choix">
+            <form method="POST">
+                <input type="submit" name="choice" value="Supprimer"/>
+            </form>
+            <form method="POST">
+                <button class="btn" onclick="openwindow()">Modifier</button>
+            </form>
         </div>
 
+        
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -194,51 +239,56 @@
                     <h2> Modifier une location</h2>
                 </div>
                 <div class="modal-body">
+                    {% for location in results.values() %}
                     <form class="form-inline" method="PUT">
-                        <label for="geonameid">Geoname ID :  </label>
-                        <input type="text" name="geonameid" placeholder="geonameid"><br>
+                        <label for="geonameid">Geoname ID :</label>
+                        <input type="text" name="geonameid" value={{location['Geoname ID']}}> <br>
                         <label for="name">Name : </label>
-                        <input type="text" name="name" placeholder="name"><br>
+                        <input type="text" name="name" value={{location['Name']}}><br>
                         <label for="asciiname">Ascii Name :  </label>
-                        <input type="text" name="asciiname" placeholder="asciiname"><br>
+                        <input type="text" name="asciiname" value={{location['Ascii Name']}}></input><br>
                         <label for="alternatenames">Alternate Names :  </label>
-                        <input type="text" name="alternatenames" placeholder="alternatenames"><br>
+                        <input type="text" name="alternatenames" value={{location['Alternate Names']}}><br>
                         <label for="latitude">Latitude : </label>
-                        <input type="text" name="latitude" placeholder="latitude"><br>
+                        <input type="text" name="latitude" value={{ location['Latitude'] }}><br>
                         <label for="longitude">Longitude : </label>
-                        <input type="text" name="longitude" placeholder="longitude"><br>
+                        <input type="text" name="longitude" value={{ location['Longitude'] }}><br>
                         <label for="feature_class">Feature class : </label>
-                        <input type="text" name="feature_class" placeholder="feature_class"><br>
+                        <input type="text" name="feature_class" value={{location['Feature class']}}><br>
                         <label for="feature_code">Feature code :</label>
-                        <input type="text" name="feature_code" placeholder="feature_code"><br>
+                        <input type="text" name="feature_code" value={{ location['Feature code'] }}><br>
                         <label for="country_code">Country code : </label>
-                        <input type="text" name="country_code" placeholder="country_code"><br>
+                        <input type="text" name="country_code" value={{ location['Country code'] }}><br>
                         <label for="cc2">CC2 : </label>
-                        <input type="text" name="cc2" placeholder="cc2"><br>
+                        <input type="text" name="cc2" value={{ location['CC2'] }}><br>
                         <label for="admin1_code">Admin1 code : </label>
-                        <input type="text" name="admin1_code" placeholder="admin1_code"><br>
+                        <input type="text" name="admin1_code" value={{ location['Admin1 code'] }}><br>
                         <label for="admin2_code">Admin2 code : </label>
-                        <input type="text" name="admin2_code" placeholder="admin2_code"><br>
+                        <input type="text" name="admin2_code" value={{ location['Admin2 code'] }}><br>
                         <label for="admin3_code">Admin3 code : </label>
-                        <input type="text" name="admin3_code" placeholder="admin3_code"><br>
+                        <input type="text" name="admin3_code" value={{ location['Admin3 code'] }}><br>
                         <label for="admin4_code">Admin4 code : </label>
-                        <input type="text" name="admin4_code" placeholder="admin4_code"><br>
+                        <input type="text" name="admin4_code" value={{ location['Admin4 code'] }}><br>
                         <label for="population">Population : </label>
-                        <input type="text" name="population" placeholder="population"><br>
+                        <input type="text" name="population" value= {{ location['Population'] }}><br>
                         <label for="elevation">Elevation : </label>
-                        <input type="text" name="elevation" placeholder="elevation"><br>
+                        <input type="text" name="elevation" value = {{ location['Elevation'] }}><br>
                         <label for="dem">Dem :  </label>
-                        <input type="text" name="dem" placeholder="dem"><br>
+                        <input type="text" name="dem" value ={{ location['Dem'] }}><br>
                         <label for="timezone">Timezone : </label>
-                        <input type="text" name="timezone" placeholder="timezone"><br>
+                        <input type="text" name="timezone" value ={{ location['Timezone'] }}><br>
                         <label for="modification_date">Modification date : </label>
-                        <input type="text" name="modification_date" placeholder="modification_date"><br>
+                        <input type="text" name="modification_date" value={{ location['Modification date'] }}><br>
                     </form>
+                    {% endfor %}
                 </div>
                 <div class="modal-footer">
-                    <button class="ok">Valider</button>&nbsp;<button class="no">Annuler</button>
+                    <form method="POST">
+                        <button class="ok" name="choice" value="Modifier">Valider</button>&nbsp;<button class="no">Annuler</button>
+                    </form>
                 </div>
                 </div>
         </div>
+    {% endblock %}
 
     
