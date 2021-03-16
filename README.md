@@ -17,12 +17,44 @@ use flask to create a RESTful Api
 - `config.py` : exemple de fichier de configuration pour gunicorn
 - `gunicornconfig.py` : fichier de configuration finalement utiliser pour le déploiement sur Heroku de l'api
 - `equipe.txt` : Expliquer la répartition de tâches
+- `guni_run` : nécessaire pour le lancement séparé de frontend et backend avec gunicorn
+- `run_api.py` et `run_app.py` : les programs principaux pour le lancement séparé
+
+## Explication du teste local
+
+- Manière 1:
+    dans le répertoire le plus haut, lancer:
+    `$ python main.py`
+
+    Et puis consulter l'app dans http://127.0.0.1:5000/
+
+- Manière 2:
+    dans le répertoire le plus haut, avec 2 terminals, lancer séparément en même temps:
+    ```bash
+    # terminal 1
+    $ gunicorn -c gunicornconfig_back.py run_api:back
+
+    # terminal 2
+    $ gunicorn -c gunicornconfig_front.py run_app:front
+    ```
+
+    Pour consulter le frontend, allez à http://127.0.0.1:8088
+    Pour consulter le backend, allez à http://127.0.0.1:5000/api
+
+- un compte déjà créé pour effectuer les tests:
+
+    - username: Jianying
+    - ID: 006
+    - Password: 12345
+    **Attention: chaque token expirera dans 10 minutes, après, il faut se reconnecter**
+
+
 
 ## Manuel technique (suite) : Déploiement sur Heroku
 
 **Système utilisé: Ubuntu (wsl)**
 
-#### Avant de commencer le déploiement, heroku exige que l'app est stocké sous forme de git repository. Initier git dans le plus au niveau de votre app (répertoire du programme principale). 
+#### Avant de commencer le déploiement, heroku exige que l'app est stocké sous forme de git repository. Initier git dans le plus haut niveau de votre app (répertoire du programme principale). 
 
 **Structure d'exemple:**
 
@@ -93,6 +125,9 @@ Heroku permet d'utiliser les base de données *Postgres*, il y a certaines limit
 ### Étape optionnelle
 Pour sécuriser votre app, on doit d'abord reconfigurer `SECRET_KEY` avec variable d'environnement：
 `$ heroku config:set SECRET_KEY=random_string_genere`
+
+Astuce: pour générer un string aléatoire :
+`$ python -c "import uuid; print(uuid.uuid4().hex)"`
 
 Deuxièmement, si on veut changer de HTTP à HTTPS, deux autres extension/outil sont nécessaires: `Flask-SSLify` et `ProxyFix`.
 
@@ -171,6 +206,9 @@ $ python main.py
 $ export FLASK_APP=main.py
 
 $ flask run
+
+# donner un port
+$ flask run -p 8088
 ```
 
 #### Méthode 3
@@ -178,6 +216,7 @@ $ flask run
 ```bash
 # tester avec gunicorn sans fichier de configuration
 $ gunicorn main:app
+# gunicorn run_app:front
 
 # spécifier un autre port si on veut voir l'effet de gunicorn
 $ gunicorn main:app -b 0.0.0.0:2021
@@ -242,6 +281,17 @@ En cas d'oublier l'adresse de vos apps:
 ```bash
 $ git remote show heroku
 ```
+
+Vérifier tous les noms de apps du compte
+```bash
+$ heroku apps
+```
+
+Vérifier tous les releases de l'app (dans son répertoire)
+```bash
+$ heroku releases
+```
+
 
 Si malheureusement vous rencontrez des erreurs, vous pouvez consulter les logs avec:
 ```bash

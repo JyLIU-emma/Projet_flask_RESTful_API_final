@@ -31,25 +31,18 @@ if app.config['SSL_REDIRECT']:
     from werkzeug.middleware.proxy_fix import ProxyFix
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
-# initier les module pour login_manager et database
-# login_manager.init_app(app)
+# initier le module pour database
 db.init_app(app)
 migrate = Migrate(app, db)
 
 app.app_context().push()
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
-# CORS(app, supports_credentials=True)
-# api = Api(app, prefix='/api')
-
-# @app.route('/token', methods=['POST'])
-# @auth.login_required
-# class AuthToken(Resource):
-#     def get(self):
-#         token = g.user.generate_auth_token()
-#         return {'token':token.decode('ascii')}
 
 
+# pour le déploiement du Heroku, et lancement avec main.py:
 api = Api(app)
+# pour lancer séparament frontend et backend, utilise la ligne suivante:
+# api = Api(app, prefix='/api')
 
 
 

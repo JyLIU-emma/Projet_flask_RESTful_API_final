@@ -1,6 +1,5 @@
 from flask import Flask, request, url_for, redirect, session, flash, jsonify, abort, g
 import json
-# from flask_login import login_user, logout_user, login_required
 import os
 from flask_restful import Resource, Api
 from passlib.apps import custom_app_context as pwd_context
@@ -53,12 +52,8 @@ class Login(Resource):
             msg = "Verifiez votre nom, votre id ou votre mot de passe, s'il vous plaît !"
             return output_json({"message" : msg}, code=400)
         else:
-            # login_user(user)
-            # print(request.authorization)
-            # auth = request.authorization
             token = user.generate_auth_token()
             return output_json({'userid': userid, 'token':token.decode('ascii'), 'username':username}, code=200)
-            # return {'username': username}, 200
         
 
 class Logout(Resource):

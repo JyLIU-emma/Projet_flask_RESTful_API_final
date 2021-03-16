@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, g, session
 from frontend.models.api_connect import user_create_page, user_login_page
 
+"""
+Ce script regroupe les pages de login/création du compte ainsi que les gestions de l'anthentification
+"""
 
 __all__ =['auth_bp', 'add_admin', 'login', 'logout']
 
@@ -51,17 +54,9 @@ def login():
             session['token'] = resp['token']
             session['username'] = resp['username']
             session.permanent = True
-            # print(session['userid'],session['token'])
             return redirect(url_for('locations.search_results_page'))
 
 @auth_bp.route('/logout', methods=['GET'])
 def logout():
     session.clear()
     return redirect(url_for('home.home'))
-
-
-# @app.route('/', methods=['GET'])
-# def home():
-#     # choice = request.args.get("choice")
-#     message = home_page()
-#     return render_template('index.html', msg=message)

@@ -3,10 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 import json
 from passlib.apps import custom_app_context as pwd_context
-# from flask_login import UserMixin, LoginManager, logout_user, login_required
 
 from flask_httpauth import HTTPBasicAuth
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app as app
+
 
 __all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'output_json', 'auth']
 
@@ -62,11 +63,12 @@ class User(db.Model):
         return pwd_context.verify(password, self.password_hash)
 
     def generate_auth_token(self, expiration = 600):
-        s = Serializer("ced7bc208f304df1b501346dddbacf6b", expires_in = expiration)
+        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
         return s.dumps({ 'id': self.id })
+
     @staticmethod
     def verify_auth_token(token):
-        s = Serializer("ced7bc208f304df1b501346dddbacf6b")
+        s = Serializer(app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except:

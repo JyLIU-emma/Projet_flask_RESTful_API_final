@@ -81,7 +81,11 @@ def one_location_page(geonameid):
             return render_template(LOCATION_PAGE, results = results)
 
 @place_bp.route('/<geonameid>', methods=['POST'])
-def one_location_page_change(geonameid):    
+def one_location_page_change(geonameid):
+    """
+    Utiliser la méthode POST pour récupérer le choix supprimer/modifier
+    Si c'est modifier, envoie le geonameid et le dico de ses infos au backend pour la modification
+    """
     if request.method == 'POST':
         choice = request.form.get('choice')
         
