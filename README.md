@@ -43,15 +43,17 @@ use flask to create a RESTful Api
 
 - un compte déjà créé pour effectuer les tests:
 
-    - username: Jianying
-    - ID: 006
-    - Password: 12345
-    
+  - username: Jianying
+  - ID: 006
+  - Password: 12345
+
     **Attention: chaque token expirera dans 10 minutes, après, il faut se reconnecter**
 
-
-
 ## Manuel technique (suite) : Déploiement sur Heroku
+
+### URLs vers notre app:
+- app (frontend) : https://flask-geonames-projet-app.herokuapp.com/
+- api (backend) : https://flask-geonames-projet-backend.herokuapp.com/
 
 **Système utilisé: Ubuntu (wsl)**
 
