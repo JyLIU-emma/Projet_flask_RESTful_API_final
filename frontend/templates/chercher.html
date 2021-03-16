@@ -22,6 +22,13 @@
 {% endblock %}
 
 {% block page_content %}
+    {% if api_error %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ msg }}
+    </div>
+    {% endif %}
+    
     <form class="form-search" method="GET">
         <h2 class="form-group-heading">Chercher une location</h2>
         <label for="name" class="sr-only"></label>

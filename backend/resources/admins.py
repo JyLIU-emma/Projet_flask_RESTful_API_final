@@ -1,14 +1,12 @@
 from flask import Flask, request, url_for, redirect, session, flash, jsonify, abort, g
 import json
-from flask_login import login_user, logout_user, login_required
+# from flask_login import login_user, logout_user, login_required
 import os
 from flask_restful import Resource, Api
 from passlib.apps import custom_app_context as pwd_context
 
 from .lib.utils import *
 
-
-# from flask.views import MethodView
 __all__ =['Login', 'CreateAdmin', 'Logout','AuthToken']
 
 # importer l'info des collaborateurs stockée dans "users.json"
@@ -20,8 +18,6 @@ users = load_data('users')
 route de cette page:
 /admins/add
 """
-
-
 
 class AuthToken(Resource):
     @auth.login_required

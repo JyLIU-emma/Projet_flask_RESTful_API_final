@@ -50,6 +50,7 @@ def login():
             session['userid'] = resp['userid']
             session['token'] = resp['token']
             session['username'] = resp['username']
+            session.permanent = True
             # print(session['userid'],session['token'])
             return redirect(url_for('locations.search_results_page'))
 

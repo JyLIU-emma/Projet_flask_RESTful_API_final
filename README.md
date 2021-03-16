@@ -1,8 +1,24 @@
 # Projet-techweb
+
 use flask to create a RESTful Api
 
-## Manuel technique (suite) : Déploiement sur Heroku
+## Explication du repository
 
+- `main.py` : programme principale pour lancer l'app
+- dans `backend` :
+    program principal: api.py
+
+    L'apidoc est dans son sous-répertoire `static\index.html`
+
+- dans `frontend` :
+    program principal: app.py
+
+- `api.conf` : fichier de configuration nginx pour l'api
+- `config.py` : exemple de fichier de configuration pour gunicorn
+- `gunicornconfig.py` : fichier de configuration finalement utiliser pour le déploiement sur Heroku de l'api
+- `equipe.txt` : Expliquer la répartition de tâches
+
+## Manuel technique (suite) : Déploiement sur Heroku
 
 **Système utilisé: Ubuntu (wsl)**
 

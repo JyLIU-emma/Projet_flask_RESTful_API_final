@@ -19,9 +19,5 @@ def index():
     if choice == "Créer un compte":
         return redirect(url_for('auth.add_admin'))
     elif choice == "Login":
-        return redirect(url_for('auth.login'))  ########################33
-    
-    # if status_code
-    # print(status_code)
-    # print(msg)
+        return redirect(url_for('auth.login'))
     

@@ -3,17 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 import json
 from passlib.apps import custom_app_context as pwd_context
-from flask_login import UserMixin, LoginManager, logout_user, login_required
+# from flask_login import UserMixin, LoginManager, logout_user, login_required
 
 from flask_httpauth import HTTPBasicAuth
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-
-# __all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'load_user', 'login_manager', 'output_json']
 __all__ = ["User", 'fr', 'db', 'DB_DATA', "load_data", 'output_json', 'auth']
-#######################################################
-# login_manager = LoginManager()
-# login_manager.login_view = 'login_ep'
 
 
 # Créer des chemins vers les bases de données
@@ -25,6 +20,7 @@ DB_DATA = DATA / "locations.db"
 db = SQLAlchemy()
 
 ###################################################
+# changer la manière d'authentification, utiliser HTTPBasicAuth et jwt cette fois-ci
 auth = HTTPBasicAuth()
 @auth.verify_password
 def verify_password(id_or_token,password):
@@ -43,21 +39,8 @@ def unauthorized(message):
 
 @auth.error_handler
 def auth_error():
-    return unauthorized('Invalid credentials')
+    return unauthorized('Invalid credentials, merci de vous connecter avant de consulter la base de données')
 
-# def forbidden(message):
-#     response = jsonify({'error': 'forbidden', 'message': message})
-#     response.status_code = 403
-#     return response
-
-
-# @auth.login_required
-# def before_request():
-#     if not g.current_user.is_anonymous and \
-#             not g.current_user.confirmed:
-#         return forbidden('Unconfirmed account')
-
-# class User(UserMixin, db.Model):
 class User(db.Model):
     """
     cette classe lie le tableau "users" dans base de données et crée une instance de user
@@ -91,11 +74,6 @@ class User(db.Model):
         user = User.query.get(data['id'])
         return user
 
-
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(user_id)
 
 def load_data(tablename):
     """
